@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+	<node type="rly_816.py" name="rly816" pkg="rly_816" output="screen">
+		<!-- param name="port" value="/dev/ttyACM1" type="string"/ -->
+                <param name="port" value="/dev/ttyACM_RLY" type="string"/>
+	</node>
+</launch>
