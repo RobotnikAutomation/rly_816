@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rly_816)
+project(phidget_load)
 find_package(catkin REQUIRED COMPONENTS rospy std_msgs robotnik_msgs)
 find_package(Boost REQUIRED)
 

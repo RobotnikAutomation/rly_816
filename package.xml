@@ -1,14 +1,14 @@
 <package>
-  <name>rly_816</name>
+  <name>phidget_load</name>
   <version>1.0.0</version>
   <description>
-    Driver for the rly_816 outputs device
+    Driver for the Phidget load sensor
   </description>
-  <maintainer email="rnavarro@robotnik.es">Roman Navarro</maintainer>
+  <maintainer email="mbosch@robotnik.es">Marc Bosch Jorge</maintainer>
   
   <license>BSD</license>
   
-  <author email="rnavarro@robotnik.es">Roman Navarro</author>
+  <author email="mbosch@robotnik.es">Marc Bosch Jorge</author>
 
   <buildtool_depend>catkin</buildtool_depend>
 
