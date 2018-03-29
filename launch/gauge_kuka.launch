@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+	<node type="gauges_kuka.py" name="phidget_load" pkg="phidget_load" output="screen">
+		<!-- param name="port" value="/dev/ttyACM1" type="string"/ -->
+        <param name="port" value="/dev/ttyACM_RLY" type="string"/>
+	</node>
+</launch>
