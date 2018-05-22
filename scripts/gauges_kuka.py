@@ -59,6 +59,7 @@ class PhidgetLoadComponent(RComponent):
         self.load_message_c2 = std_msgs.msg.Float64()
         self.load_message_c3 = std_msgs.msg.Float64()
         self.load_message_c4 = std_msgs.msg.Float64()
+        self.load_force_message = std_msgs.msg.Float64()
         self.data = []
         self.buffer_size = 1 #10
         self.data_channels = 4
@@ -160,6 +161,7 @@ class PhidgetLoadComponent(RComponent):
         self.load_c1_publisher_= rospy.Publisher('~load_c1', std_msgs.msg.Float64, queue_size=1)
         self.load_c2_publisher_= rospy.Publisher('~load_c2', std_msgs.msg.Float64, queue_size=1)
         self.load_c3_publisher_= rospy.Publisher('~load_c3', std_msgs.msg.Float64, queue_size=1)
+        self.load_force_publisher_= rospy.Publisher('~vertical_force', std_msgs.msg.Float64, queue_size=1)
 
     def rosShutdown(self):
         if self.running:
@@ -176,6 +178,7 @@ class PhidgetLoadComponent(RComponent):
         self.load_c1_publisher_.unregister()
         self.load_c2_publisher_.unregister()
         self.load_c3_publisher_.unregister()
+        self.load_force_publisher_.unregister()
 
     def mean(self, data):
         if len(data) == 0:
@@ -194,6 +197,7 @@ class PhidgetLoadComponent(RComponent):
         self.load_message_c3.data=self.mean(self.data[2])
         self.load_message_c4.data=self.mean(self.data[3])
         self.load_mean_message.data = self.mean(self.data[0])+self.mean(self.data[1])+self.mean(self.data[2])+self.mean(self.data[3])
+        self.load_force_message.data = self.mean(self.data[0])-self.mean(self.data[1])+self.mean(self.data[2])-self.mean(self.data[3])
 
     def rosPublish(self):
         RComponent.rosPublish(self)
@@ -202,6 +206,8 @@ class PhidgetLoadComponent(RComponent):
         self.load_c1_publisher_.publish(self.load_message_c2)
         self.load_c2_publisher_.publish(self.load_message_c3)
         self.load_c3_publisher_.publish(self.load_message_c4)
+        self.load_force_publisher_.publish(self.load_force_message)
+        
 
 def main():
     rospy.init_node("phidget_load")
