@@ -48,7 +48,7 @@ from Phidget22.Devices.VoltageRatioInput import *
 from Phidget22.PhidgetException import *
 from Phidget22.Phidget import *
 from Phidget22.Net import *
-
+from std_srvs.srv import SetBool, SetBoolResponse
 
 class PhidgetLoadComponent(RComponent):
     def __init__(self, args):
@@ -71,6 +71,8 @@ class PhidgetLoadComponent(RComponent):
         self.gain_channel2=149895 #2.0014 abajo izq
         self.gain_channel3=149723 #2.0037 abajo dcha
         self.gain=[self.gain_channel0,self.gain_channel1,self.gain_channel2,self.gain_channel3]
+        self.tared_weight=0.0
+        self.weight_raw=0.0
 
     def VoltageRatioInputAttached(self, e):
         try:
@@ -196,7 +198,8 @@ class PhidgetLoadComponent(RComponent):
         self.load_message_c2.data=self.mean(self.data[1])
         self.load_message_c3.data=self.mean(self.data[2])
         self.load_message_c4.data=self.mean(self.data[3])
-        self.load_mean_message.data = self.mean(self.data[0])+self.mean(self.data[1])+self.mean(self.data[2])+self.mean(self.data[3])
+        self.weight_raw = self.mean(self.data[0])+self.mean(self.data[1])+self.mean(self.data[2])+self.mean(self.data[3])
+        self.load_mean_message.data = self.weight_raw-self.tared_weight
         self.load_force_message.data = self.mean(self.data[0])-self.mean(self.data[1])+self.mean(self.data[2])-self.mean(self.data[3])
 
     def rosPublish(self):
@@ -207,6 +210,20 @@ class PhidgetLoadComponent(RComponent):
         self.load_c2_publisher_.publish(self.load_message_c3)
         self.load_c3_publisher_.publish(self.load_message_c4)
         self.load_force_publisher_.publish(self.load_force_message)
+        
+    def tare_weight_server(self, req):
+            if(req.data):
+                self.tared_weight = self.weight_raw
+                return SetBoolResponse(True, 'Tared')
+            elif(req.data == False):
+                    self.tared_weight = 0.0
+                    return SetBoolResponse(False, 'Reset')
+            
+              
+            
+            
+            
+            
         
 
 def main():
@@ -234,8 +251,9 @@ def main():
 
 
     phidget_load_node = PhidgetLoadComponent(args)
-
+    service_tare = rospy.Service('tare_weight_gauges', SetBool, phidget_load_node.tare_weight_server)
     phidget_load_node.start()
+    
 
 if __name__ == "__main__":
     main()
