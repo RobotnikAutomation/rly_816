@@ -23,7 +23,7 @@
   <run_depend>self_test</run_depend>
   <run_depend>diagnostic_updater</run_depend>
   <run_depend>robotnik_msgs</run_depend>
+  <run_depend>message_runtime</run_depend>
 
 
 </package>
-

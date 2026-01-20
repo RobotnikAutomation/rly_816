@@ -6,9 +6,8 @@ find_package(Boost REQUIRED)
 catkin_package(
   
    LIBRARIES ${PROJECT_NAME}
-   CATKIN_DEPENDS std_msgs robotnik_msgs
-   DEPENDS messages_runtime std_msgs)
+   CATKIN_DEPENDS std_msgs robotnik_msgs message_runtime
+   DEPENDS std_msgs)
 
 include_directories(include ${Boost_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
-
 
