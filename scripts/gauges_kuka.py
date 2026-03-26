@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Software License Agreement (BSD License)
 #
@@ -116,7 +116,8 @@ class PhidgetLoadComponent(RComponent):
         RComponent.setup(self)
 
         rospy.loginfo("%s::setup" % self.node_name)
-
+        self.data = [[0]*self.buffer_size for _ in range(self.data_channels)]
+        self.current_index = [0 for _ in range(self.data_channels)]
         for i in range(self.data_channels):
             try:
                 ch = VoltageRatioInput()
@@ -128,8 +129,6 @@ class PhidgetLoadComponent(RComponent):
                 if(ch.getChannelSubclass() == ChannelSubclass.PHIDCHSUBCLASS_VOLTAGERATIOINPUT_BRIDGE):
                     ch.setBridgeEnabled(1)
                 self.channels.append(ch)
-                self.data.append([0]*self.buffer_size)
-                self.current_index.append(0)
             except RuntimeError as e:
                 rospy.logerr('runtime error', e)
                 return 0
@@ -251,7 +250,7 @@ def main():
             else:
                 args[name] = arg_defaults[name]
             #print name
-        except rospy.ROSException, e:
+        except rospy.ROSException as e:
             rospy.logerr('%s: %s'%(e, _name))
 
 

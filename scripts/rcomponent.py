@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # Software License Agreement (BSD License)
 #
@@ -394,7 +394,7 @@ def main():
             else:
                 args[name] = arg_defaults[name]
             #print name
-        except rospy.ROSException, e:
+        except rospy.ROSException as e:
             rospy.logerr('%s: %s'%(e, _name))
 
 
