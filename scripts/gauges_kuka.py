@@ -221,7 +221,7 @@ class PhidgetLoadComponent(RComponent):
             elif(req.data == False):
                     self.tared_weight = 0.0
                     self.tared_weight_h = 0.0
-                    return SetBoolResponse(False, 'Reset')
+                    return SetBoolResponse(True, 'Reset')
             
               
             
